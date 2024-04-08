@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Dylan ZHANG, Nathan MARQUIS, Lorenzo FLAGOTHIER ,groupe: B8" />
+  <title>Rapport SAE 2.03</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="../styles/pandoc_styles.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Rapport SAE 2.03</h1>
+<p class="author">Dylan ZHANG, Nathan MARQUIS, Lorenzo FLAGOTHIER
+,groupe: B8</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#préparation-de-la-machine-virtuelle">Préparation de la
+machine virtuelle</a>
+<ul>
+<li><a
+href="#question-1.-configuration-matérielle-dans-virtualbox">Question 1.
+Configuration matérielle dans VirtualBox</a></li>
+<li><a href="#installations-de-los">Installations de l’OS</a></li>
+<li><a href="#question-2.-installations-os-de-base">Question 2.
+Installations OS de base</a></li>
+</ul></li>
+<li><a href="#préparation-du-système">Préparation du système</a>
+<ul>
+<li><a href="#question-3.-sudo">Question 3. sudo</a></li>
+<li><a href="#question-4.-suppléments-invités">Question 4. Suppléments
+invités</a></li>
+</ul></li>
+<li><a href="#a-propos-de-la-distribution-debian">A propos de la
+distribution Debian</a>
+<ul>
+<li><a
+href="#question-5.-quelques-questions-sur-la-distribution-debian">Question
+5. Quelques questions sur la distribution debian</a></li>
+</ul></li>
+<li><a href="#installation-préconfigurée">Installation préconfigurée</a>
+<ul>
+<li><a href="#question-6.-ajustement-de-la-pré-configuration">Question
+6. Ajustement de la pré-configuration</a></li>
+</ul></li>
+<li><a href="#configuration-globale-de-git">Configuration globale de
+git</a>
+<ul>
+<li><a href="#les-interfaces-graphiques-pour-git">Les interfaces
+graphiques pour git</a></li>
+<li><a href="#questions-7.-préleminaire">Questions 7.
+Préleminaire</a></li>
+<li><a
+href="#installation-et-comparaison-dun-autre-dépot-git">Installation et
+comparaison d’un autre dépot git</a></li>
+<li><a href="#question-8.-comparaison">Question 8. Comparaison</a></li>
+</ul></li>
+<li><a href="#installation-gitea">Installation Gitea</a>
+<ul>
+<li><a href="#redirection-de-port">Redirection de port</a></li>
+<li><a href="#questions-9.-a-propos-de-gitea">Questions 9. A propos de
+Gitea</a></li>
+<li><a href="#installations-du-binaire">Installations du
+binaire</a></li>
+</ul></li>
+</ul>
+</nav>
+<hr />
+<h2 id="préparation-de-la-machine-virtuelle">Préparation de la machine
+virtuelle</h2>
+<p>Pour commencer à créer une machine virtuelle, nous allons utiliser
+Oracle VM Virtualbox. Ces étapes commencent par modifier le nom, le
+dossier destinataire et l’image ISO à installer depuis le site de
+Debian, comme ci-dessous.</p>
+<table>
+<colgroup>
+<col style="width: 41%" />
+<col style="width: 58%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Étape</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Modifier le nom</td>
+<td>Renommer la machine virtuelle</td>
+</tr>
+<tr class="even">
+<td>Modifier le dossier destinataire</td>
+<td>Choisir l’emplacement pour stocker les fichiers</td>
+</tr>
+<tr class="odd">
+<td>Choisir l’image ISO <a href="#fn1" class="footnote-ref" id="fnref1"
+role="doc-noteref"><sup>1</sup></a></td>
+<td>Sélectionner l’image ISO à partir du site de Debian</td>
+</tr>
+</tbody>
+</table>
+<p><img src="../Screenshots/nomVM.png" width="500" /></p>
+<p>Nous allons ensuite attribuer l’espace mémoire nécessaire et allouer
+de l’espace pour le disque.</p>
+<p><img src="../Screenshots/volume.png" width="500" /></p>
+<p><img src="../Screenshots/disk.png" width="500" /></p>
+<p>Une fois que toutes les étapes précédentes sont faites, nous allons
+configurer la machine virtuelle.</p>
+<hr />
+<h3 id="question-1.-configuration-matérielle-dans-virtualbox">Question
+1. Configuration matérielle dans VirtualBox</h3>
+<hr />
+<table>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 73%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Question</th>
+<th>Réponse</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Signification de “64-bit” dans “Debian 64-bit”</td>
+<td>Le terme “64-bit” fait référence à la compatibilité avec les
+processeurs 64 bits, permettant d’utiliser plus de 4 Go de RAM et
+d’exécuter des applications optimisées pour cette architecture.</td>
+</tr>
+<tr class="even">
+<td>Configuration réseau utilisée par défaut</td>
+<td>La configuration réseau par défaut est généralement en mode NAT,
+permettant à la machine virtuelle d’accéder à Internet via le réseau
+hôte.</td>
+</tr>
+<tr class="odd">
+<td>Nom du fichier XML contenant la configuration de votre machine</td>
+<td>Le nom du fichier XML contenant la configuration de la machine
+virtuelle peut varier en fonction de l’utilisateur et de l’emplacement
+de la configuration.</td>
+</tr>
+<tr class="even">
+<td>Modification du fichier de configuration pour mettre 2
+processeurs</td>
+<td>Vous pouvez modifier le fichier de configuration de la machine
+virtuelle pour attribuer plus de processeurs en modifiant le paramètre
+<code>&lt;CPUs&gt;</code> dans le fichier XML.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="installations-de-los">Installations de l’OS</h3>
+<hr />
+<table>
+<colgroup>
+<col style="width: 41%" />
+<col style="width: 58%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Étape</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Nommage de la machine</td>
+<td>Renommer la machine debian par s203</td>
+</tr>
+<tr class="even">
+<td>Changer la langue du clavier</td>
+<td>Choisir le disposition FR pour le clavier</td>
+</tr>
+<tr class="odd">
+<td>Config root</td>
+<td>Créer le mot de passe pour root</td>
+</tr>
+<tr class="even">
+<td>Config user</td>
+<td>Créer un utilisateur User et mettre son mot de passe user</td>
+</tr>
+<tr class="odd">
+<td>Dépot paquetage debian</td>
+<td>Choisir le dépot de paquetage debian.polytech</td>
+</tr>
+<tr class="even">
+<td>Proxy</td>
+<td>Ne pas choisir de proxy</td>
+</tr>
+<tr class="odd">
+<td>Partitionnement du disque</td>
+<td>Partitionnement automatique</td>
+</tr>
+<tr class="even">
+<td>Installation logiciel</td>
+<td>Cocher environnement de bureau Debian, MATE, serveur web, serveur
+ssh, utilitaires usuels du système</td>
+</tr>
+<tr class="odd">
+<td>Installation Grub<a href="#fn2" class="footnote-ref" id="fnref2"
+role="doc-noteref"><sup>2</sup></a></td>
+<td>Installer Grub sur le bon périphérique /dev/sda</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>Nommage de la machine :</p>
+<p><img src="../Screenshots/Nom_machine.png" width="500" /></p>
+<p>Choix de la langue et du clavier :</p>
+<p><img src="../Screenshots/Language.png" width="500" /></p>
+<p>Pour configurer le mot de passe de root :</p>
+<p><img src="../Screenshots/Root.png" width="500" /></p>
+<p>Configuration de l’utilisateur :</p>
+<p><img src="../Screenshots/User.png" width="500" /> <img
+src="../Screenshots/User_mdp.png" width="500" /></p>
+<p>Pour changer la disposition du clavier en français</p>
+<p><img src="../Screenshots/language_clavier.png" width="500" /></p>
+<p>Pour choisir le serveur de paquetage debian.polytech :</p>
+<p><img src="../Screenshots/Miroir.png" width="500" /></p>
+<p>Choix du proxy (aucun) :</p>
+<p><img src="../Screenshots/Proxy.png" width="500" /></p>
+<p>Partitionnement des disques :</p>
+<p><img src="../Screenshots/Partitionnement_fini.png" width="500" /></p>
+<p>Installation des logiciels de démarrage :</p>
+<p><img src="../Screenshots/Logiciels_D%C3%A9marrage.png"
+width="500" /></p>
+<p>Installation du Grub :</p>
+<p><img src="../Screenshots/GRUB.png" width="500" /></p>
+<hr />
+<h3 id="question-2.-installations-os-de-base">Question 2. Installations
+OS de base</h3>
+<hr />
+<table>
+<colgroup>
+<col style="width: 35%" />
+<col style="width: 64%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Question</th>
+<th>Réponse</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Qu’est-ce qu’un fichier iso bootable ?</td>
+<td>Un fichier iso bootable est un fichier image créé à partir d’un CD
+ou DVD contenant un système d’exploitation.</td>
+</tr>
+<tr class="even">
+<td>Qu’est-ce que MATE ? GNOME ?</td>
+<td>MATE et GNOME sont des environnements de bureau pour les systèmes
+Linux, y compris Debian.</td>
+</tr>
+<tr class="odd">
+<td>Qu’est-ce qu’un serveur web ?</td>
+<td>Un serveur web est un logiciel qui permet de servir des pages web
+via le protocole HTTP.</td>
+</tr>
+<tr class="even">
+<td>Qu’est-ce qu’un serveur ssh ?</td>
+<td>Un serveur SSH permet aux utilisateurs de se connecter à distance et
+d’exécuter des commandes de manière sécurisée sur une machine
+distante.</td>
+</tr>
+<tr class="odd">
+<td>Qu’est-ce qu’un serveur mandataire ?</td>
+<td>Un serveur mandataire (ou proxy) est un serveur qui agit en tant
+qu’intermédiaire entre les clients et d’autres serveurs, permettant de
+contrôler et de filtrer les requêtes.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="préparation-du-système">Préparation du système</h2>
+<p>Accès sudo<a href="#fn3" class="footnote-ref" id="fnref3"
+role="doc-noteref"><sup>3</sup></a> user</p>
+<pre><code>usermod -G sudo user</code></pre>
+<p><img src="../Screenshots/Sudo.png" width="500" /></p>
+<p>Installation des suppléments :</p>
+<p><img src="../Screenshots/Installation_Supplements.png"
+width="500" /></p>
+<hr />
+<h3 id="question-3.-sudo">Question 3. sudo</h3>
+<hr />
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 78%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Question</th>
+<th>Réponse</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>À quels groupes appartient l’utilisateur user ?</td>
+<td>Pour le savoir, on peut utiliser les commandes suivantes :
+<code>getent group sudo</code> ou <code>id</code> <img
+src="../Screenshots/getent.png" width="500" /></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="question-4.-suppléments-invités">Question 4. Suppléments
+invités</h3>
+<hr />
+<table>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 73%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Question</th>
+<th>Réponse</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Version du noyau Linux de votre VM</td>
+<td><img src="../Screenshots/Version_Linux.png"
+alt="Version du noyau Linux" /></td>
+</tr>
+<tr class="even">
+<td>Rôles des suppléments invités et deux raisons</td>
+<td>Les suppléments invités améliorent les performances du système hôte
+et les interactions avec l’invité. Ils permettent les dossiers partagés
+et la synchronisation de l’heure.</td>
+</tr>
+<tr class="odd">
+<td>Utilité de la commande mount</td>
+<td>La commande <code>mount</code> permet de monter une partition dans
+un répertoire donné. Dans notre cas, elle a servi à installer les
+suppléments sur notre VM.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="a-propos-de-la-distribution-debian">A propos de la distribution
+Debian</h2>
+<h3
+id="question-5.-quelques-questions-sur-la-distribution-debian">Question
+5. Quelques questions sur la distribution debian</h3>
+<table>
+<colgroup>
+<col style="width: 38%" />
+<col style="width: 61%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Question</th>
+<th>Réponse</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Qu’est-ce que le Projet Debian ? D’où vient le nom Debian ?</td>
+<td>Le nom du projet Debian vient du nom de son créateur Ian Murdock et
+de son épouse Debra. L’objectif du projet est de créer un système
+d’exploitation composé exclusivement de fichiers libres.</td>
+</tr>
+<tr class="even">
+<td>Il existe 3 durées de prise en charge (support) de ces versions : la
+durée minimale, la durée en support long terme (LTS) et la durée en
+support long terme étendue (ELTS). Quelle sont les durées de ces prises
+en charge ?</td>
+<td>- La version minimale de Debian est généralement supportée pendant
+environ 5 ans. - La version LTS étend ce support à environ 5 ans
+supplémentaires. - La version ELTS fournit un support encore plus
+étendu, généralement pour une période de 3 ans supplémentaire après la
+fin du support LTS.</td>
+</tr>
+<tr class="odd">
+<td>Pendant combien de temps les mises à jour de sécurité seront-elles
+fournies ?</td>
+<td>Certaines versions peuvent être fournies pendant une période totale
+allant jusqu’à 13 ans.</td>
+</tr>
+<tr class="even">
+<td>Combien de versions au minimum sont activement maintenues par Debian
+? Donnez leur nom générique (= les types de distribution)</td>
+<td>- Debian maintient généralement deux versions : une version stable
+et une version de test. - Actuellement, les versions maintenues sont
+Debian 10 (Buster) avec un support LTS jusqu’en juillet 2024 et Debian
+11 (Bullseye) avec un support LTS mais les dates exactes ne sont pas
+encore précisées.</td>
+</tr>
+<tr class="odd">
+<td>Chaque distribution majeure possède un nom de code différent. D’où
+viennent les noms de code donnés aux distributions ?</td>
+<td>Les noms de code des différentes versions de Debian proviennent des
+noms de personnages des films Toy Story de Pixar.</td>
+</tr>
+<tr class="even">
+<td>L’un des atouts de Debian fut le nombre d’architectures (
+processeurs) officiellement prises en charge. Combien et lesquelles sont
+prises en charge par la version Bullseye ?</td>
+<td>La version Debian 11 (Bullseye) prend en charge 13 architectures
+officiellement reconnues.</td>
+</tr>
+<tr class="odd">
+<td>La première version de Debian est Debian 1.1</td>
+<td>- Le premier nom de code utilisé était Buzz - La version a été
+publiée en 1996 - Le numéro de distribution de cette version est
+1.1</td>
+</tr>
+<tr class="even">
+<td>La dernière version de Debian est Debian 12</td>
+<td>- Le dernier nom de code utilisé était Bookworm - La version a été
+publiée le 10 Juin 2023 - Le numéro de distribution de cette version est
+12</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="installation-préconfigurée">Installation préconfigurée</h2>
+<table>
+<colgroup>
+<col style="width: 31%" />
+<col style="width: 68%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Étape</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Téléchargement du fichier autoinstall_debian</td>
+<td>Récupérer le fichier autoinstall_debian et le placer dans le
+répertoire contenant la machine virtuelle</td>
+</tr>
+<tr class="even">
+<td>Insertion du fichier S203_Debian12.viso</td>
+<td>Insérer le fichier S203_Debian12.viso dans le lecteur optique de la
+machine virtuelle</td>
+</tr>
+<tr class="odd">
+<td>Installation des logiciels supplémentaires</td>
+<td>Installer les logiciels supplémentaires nécessaires pour la
+configuration automatique</td>
+</tr>
+</tbody>
+</table>
+<p>Par la suite on va insérer le fichier S203_Debian12.viso dans le
+lecteur optique.</p>
+<p>Après avoir mis l’iso autoinstall la vm n’aura plus d’interface
+graphique mais juste un terminal.</p>
+<p>Ensuite on va devoir ajuster notre pré-configuration, pour cela on va
+devoir installer des paquets.</p>
+<p><img src="../Screenshots/rapport16.png" width="500" /></p>
+<h3 id="question-6.-ajustement-de-la-pré-configuration">Question 6.
+Ajustement de la pré-configuration</h3>
+<table>
+<tbody>
+<tr class="odd">
+<td>Ne pas oublier de apt update après chaque install</td>
+</tr>
+</tbody>
+</table>
+<table>
+<colgroup>
+<col style="width: 54%" />
+<col style="width: 45%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Commande</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>apt update</code></td>
+<td>Mettre à jour la liste des paquets disponibles</td>
+</tr>
+<tr class="even">
+<td><code>apt install mate-desktop-environment</code></td>
+<td>Installer l’environnement de bureau MATE</td>
+</tr>
+<tr class="odd">
+<td><code>apt install sudo</code></td>
+<td>Installer le paquet sudo</td>
+</tr>
+<tr class="even">
+<td><code>apt install git</code></td>
+<td>Installer le paquet git</td>
+</tr>
+<tr class="odd">
+<td><code>apt install sqlite3</code></td>
+<td>Installer le paquet sqlite3</td>
+</tr>
+<tr class="even">
+<td><code>apt install curl</code></td>
+<td>Installer le paquet curl</td>
+</tr>
+<tr class="odd">
+<td><code>apt install bash-completion</code></td>
+<td>Installer le paquet bash-completion</td>
+</tr>
+<tr class="even">
+<td><code>apt install neofetch</code></td>
+<td>Installer le paquet neofetch</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="configuration-globale-de-git">Configuration globale de git</h2>
+<p>Pour configurer git on va devoir entrer les 3 commandes suivantes
+dans un terminal :</p>
+<table>
+<colgroup>
+<col style="width: 60%" />
+<col style="width: 39%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Commande</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>git config --global user.name "Prénom Nom"</code></td>
+<td>Ajouter un nom d’utilisateur</td>
+</tr>
+<tr class="even">
+<td><code>git config --global user.email "votre@email"</code></td>
+<td>Ajouter une adresse e-mail</td>
+</tr>
+<tr class="odd">
+<td><code>git config --global init.defaultBranch "master"</code></td>
+<td>Éviter le Warning sur la création d’une branche par défaut</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="les-interfaces-graphiques-pour-git">Les interfaces graphiques
+pour git</h3>
+<hr />
+<h3 id="questions-7.-préleminaire">Questions 7. Préleminaire</h3>
+<ol type="1">
+<li><p>Qu’est-ce que le logiciel gitk ? Comment se lance-t-il ?</p>
+<p>Gitk est un logiciel d’interface graphique intégré à git, gitk permet
+de visualiser l’historique des commits, les branches, les tags et
+d’autres informations liées à un dépôt git de manière interactive.</p>
+<p>Pour installer git on utilise la commande apt install Pour lancer
+gitk on peut le lancer via la commande suivante ou ajouter un ‘&amp;’
+pour permettre de lancer Gitk en arrière plan:</p></li>
+</ol>
+<table>
+<colgroup>
+<col style="width: 60%" />
+<col style="width: 39%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Commande</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>apt update</code></td>
+<td>Mettre à jour la liste des paquets disponibles</td>
+</tr>
+<tr class="even">
+<td><code>apt install gitk</code></td>
+<td>Installer le paquet gitk</td>
+</tr>
+<tr class="odd">
+<td><code>gitk</code></td>
+<td>Lance gitk</td>
+</tr>
+<tr class="even">
+<td><code>gitk &amp;</code></td>
+<td>Lance gitk en arrière plan</td>
+</tr>
+</tbody>
+</table>
+<ol type="1">
+<li><p>Qu’est-ce que le logiciel git-gui ? Comment se lance-t-il ?</p>
+<p>Git-gui est un autre logiciel d’interface graphique pour Git, mais il
+se concentre davantage sur les opérations quotidiennes et les
+interactions avec Git plutôt que sur la visualisation de l’historique
+des commits comme Gitk. Git GUI permet d’exécuter des actions telles que
+l’initialisation d’un nouveau dépôt, l’ajout et la gestion des fichiers,
+la création de commits, la gestion des branches, la fusion de branches,
+la configuration de Git, etc.</p>
+<p>Pour instaler git-gui on utilise la commande apt install Pour lancer
+git-gui on peut le lancer via la commande suivante ou ajouter un ‘&amp;’
+pour permettre de lancer git-gui en arrière plan:</p></li>
+</ol>
+<table>
+<colgroup>
+<col style="width: 54%" />
+<col style="width: 45%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Commande</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>apt update</code></td>
+<td>Mettre à jour la liste des paquets disponibles</td>
+</tr>
+<tr class="even">
+<td><code>apt install git-gui</code></td>
+<td>Installer le paquet git-gui</td>
+</tr>
+<tr class="odd">
+<td><code>git gui</code></td>
+<td>Lance git gui</td>
+</tr>
+<tr class="even">
+<td><code>git gui  &amp;</code></td>
+<td>Lance git gui en arrière plan</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="installation-et-comparaison-dun-autre-dépot-git">Installation et
+comparaison d’un autre dépot git</h3>
+<hr />
+<h3 id="question-8.-comparaison">Question 8. Comparaison</h3>
+<ol type="1">
+<li><p>Pourquoi avez-vous choisi ce logiciel ?</p>
+<p>On a décidé de choisir le logiciel GitKraken car il possède de
+nombreuses fonctionnalités pratiques et une interface graphique
+claire.</p></li>
+</ol>
+<p><img src="../Screenshots/GitKraken.png" width="500" /></p>
+<ol type="1">
+<li><p>Comment l’avez vous installé ?</p>
+<p>Pour l’installer on est allé sur le site officiel de <a
+href="https://www.gitkraken.com">GitKraken</a></p></li>
+<li><p>Comparer-le aux outils inclus avec git (et installé précédemment)
+ainsi qu’avec ce qui serait fait en ligne de commande pure :
+fonctionnalités avantages, inconvénients…</p></li>
+</ol>
+<table>
+<colgroup>
+<col style="width: 34%" />
+<col style="width: 10%" />
+<col style="width: 28%" />
+<col style="width: 10%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Fonctionnalités / Outils</th>
+<th>GitKraken</th>
+<th>Git en ligne de commande</th>
+<th>Avantages</th>
+<th>Inconvénients</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Interface graphique conviviale</td>
+<td>Oui</td>
+<td>Non</td>
+<td>Convivialité pour les utilisateurs moins familiers avec la ligne de
+commande</td>
+<td>Dépendance à une interface graphique</td>
+</tr>
+<tr class="even">
+<td>Visualisation intuitive de l’historique et des modifications</td>
+<td>Oui</td>
+<td>Non</td>
+<td>Facilite la compréhension de l’historique et des changements</td>
+<td>Peut être moins flexible pour les utilisateurs avancés</td>
+</tr>
+<tr class="odd">
+<td>Intégration avec des services Git populaires</td>
+<td>Oui</td>
+<td>Oui</td>
+<td>Facilite l’utilisation avec des services externes tels que GitHub,
+GitLab, etc.</td>
+<td>Dépendance à des services externes</td>
+</tr>
+<tr class="even">
+<td>Contrôle précis sur les opérations Git</td>
+<td>Non</td>
+<td>Oui</td>
+<td>Permet une personnalisation avancée des opérations</td>
+<td>Nécessite une connaissance approfondie de Git en ligne de
+commande</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Les fonctionnalités de GitKraken:
+<ul>
+<li>Interface graphique conviviale pour visualiser les branches, les
+commits, les conflits et les différences de fichiers.</li>
+<li>Intégration avec des plateformes de dépôt Git populaires comme
+GitHub, GitLab, Bitbucket, etc.</li>
+<li>Possibilité de créer et de gérer des branches, de fusionner des
+branches, de créer des commits, etc., tout en utilisant une interface
+utilisateur graphique.</li>
+<li>Prise en charge des fonctionnalités avancées telles que la gestion
+des submodules, les remises, etc. Possibilité d’ajouter des notes, des
+étiquettes, des filtres, etc.</li>
+</ul></li>
+<li>Les avantages de GitKraken:
+<ul>
+<li>Convivialité : convient aux utilisateurs moins familiers avec la
+ligne de commande Git.</li>
+<li>Visualisation intuitive de l’historique et des modifications.</li>
+<li>Intégration directe avec les services Git populaires.</li>
+</ul></li>
+<li>Les inconveniants de GitKraken:
+<ul>
+<li>Dépendance à une interface graphique, ce qui peut ne pas convenir à
+certains utilisateurs préférant la ligne de commande.</li>
+<li>Peut être moins flexible pour les utilisateurs avancés qui préfèrent
+un contrôle précis sur leurs opérations Git.</li>
+</ul></li>
+<li>Les fonctionnalités de ligne de commande pure
+<ul>
+<li>Offre toutes les fonctionnalités de Git sans dépendance à une
+interface graphique ou à des outils tiers.</li>
+<li>Permet un contrôle total sur les opérations Git.</li>
+<li>Flexibilité pour automatiser les tâches à l’aide de scripts.</li>
+</ul></li>
+<li>Les avantages
+<ul>
+<li>Contrôle complet sur les opérations Git.</li>
+<li>Peut être utilisé dans des environnements sans interface
+graphique.</li>
+</ul></li>
+<li>Les inconvenients
+<ul>
+<li>Peut être intimidant pour les utilisateurs débutants ou moins à
+l’aise avec la ligne de commande.</li>
+<li>Moins convivial pour la visualisation graphique de l’historique et
+des modifications.</li>
+</ul>
+En résumé, GitKraken offre une interface graphique conviviale pour
+travailler avec Git, ce qui le rend idéal pour les utilisateurs moins
+familiers avec la ligne de commande. Les outils inclus avec Git offrent
+un contrôle précis sur les opérations Git et peuvent être automatisés
+via des scripts, tandis que la ligne de commande pure offre un contrôle
+total mais peut être plus complexe pour les débutants. Le choix entre
+ces options dépend des préférences et des besoins spécifiques de
+l’utilisateur.</li>
+</ul>
+<hr />
+<h2 id="installation-gitea">Installation Gitea</h2>
+<h3 id="redirection-de-port">Redirection de port</h3>
+<hr />
+<p>Nous avons fait la redirection de port de notre machine physique vers
+notre machine virtuelle :</p>
+<h3 id="questions-9.-a-propos-de-gitea">Questions 9. A propos de
+Gitea</h3>
+<table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 71%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Question</th>
+<th>Réponse</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Qu’est-ce que Gitea ?</td>
+<td>Gitea est un logiciel de gestion de développement logiciel sous
+format de versionnage GIT. Il est libre et open source (sous licence
+MIT). Il permet aussi l’ajout d’extensions pour plus de
+flexibilité.</td>
+</tr>
+<tr class="even">
+<td>À quels logiciels bien connus dans ce domaine peut-on le comparer
+(en citer au moins 2) ?</td>
+<td>On peut le comparer avec GitLab et GitHub qui sont également des
+logiciels de gestion de version.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="installations-du-binaire">Installations du binaire</h3>
+<hr />
+<p>Pour installer gitea on va devoir accéder au site officiel de
+gitea.</p>
+<p>On choisira la version gitea-121.7-linux-amd64</p>
+<p>Il est préférable de directement se mettre dans le répertoire
+/usr/local/bin/ et d’éxécuter la commande suivante</p>
+<p>Il faut bien vérifier que la version de git est &gt;= 2.0</p>
+<pre><code>wget -O gitea https://dl.gitea.com/gitea/1.21.7/gitea-1.21.7-linux-amd64</code></pre>
+<p>Après l’installation il ne faut pas oublier de donner toute les
+permissions avec la commande suivante</p>
+<pre><code>chmod +x gitea</code></pre>
+<p>Ensuite on va créer un utilisateur git pour modifier tous les
+fichiers gitea avec la commande suivante</p>
+<pre><code>adduser \
+   --system \
+   --shell /bin/bash \
+   --gecos &#39;Git Version Control&#39; \
+   --group \
+   --disabled-password \
+   --home /home/git \
+   git</code></pre>
+<p>On va créer les dossiers nécessaires pour gitea et donner les
+permissions pour que uniquement l’utilisateur git puisse modifier donc
+pour faire les prochaines modifications il faudra changer l’utilisateur
+sur git</p>
+<pre><code>mkdir -p /var/lib/gitea/{custom,data,log}
+chown -R git:git /var/lib/gitea/
+chmod -R 750 /var/lib/gitea/
+mkdir /etc/gitea
+chown root:git /etc/gitea
+chmod 770 /etc/gitea</code></pre>
+<p>Ensuite placez-vous dans le répertoire /var/lib/gitea/ et créer un
+fichier app.ini qui servira pour gitea lors des lancements.</p>
+<pre><code>nano app.ini</code></pre>
+<p>Une fois dans le fichier app.ini veuillez copier et coller le script
+ci-dessous</p>
+<pre><code>PP_NAME = Gitea: Git with a cup of tea
+RUN_USER = git
+WORK_PATH = /var/lib/gitea
+RUN_MODE = prod
+
+[server]
+ROOT_URL = http://localhost:3000/
+HTTP_PORT = 3000
+SSH_DOMAIN = localhost
+DOMAIN = localhost
+APP_DATA_PATH = /var/lib/gitea/data
+DISABLE_SSH = false
+SSH_PORT = 22
+LFS_START_SERVER = true
+LFS_JWT_SECRET = zdcNjXDvL--lkGqwWmGfxUeDFzymYfQpqqUVrUM6tVM
+OFFLINE_MODE = false
+
+[database]
+DB_TYPE = sqlite3
+HOST = 127.0.0.1:3306
+NAME = gitea
+USER = root
+PASSWD =
+SCHEMA =
+SSL_MODE = disable
+PATH = /var/lib/gitea/data/gitea.db
+LOG_SQL = false
+
+[repository]
+ROOT = /var/lib/gitea/repos
+
+[security]
+INTERNAL_TOKEN = votre_token_interne
+INSTALL_LOCK = true
+PASSWORD_HASH_ALGO = pbkdf2
+
+[log]
+MODE = file
+LEVEL = info
+ROOT_PATH = /var/lib/gitea/log
+
+[service]
+REGISTER_EMAIL_CONFIRM = false
+ENABLE_NOTIFY_MAIL = false
+DISABLE_REGISTRATION = false
+ALLOW_ONLY_EXTERNAL_REGISTRATION = false
+ENABLE_CAPTCHA = false
+REQUIRE_SIGNIN_VIEW = false
+DEFAULT_KEEP_EMAIL_PRIVATE = false
+DEFAULT_ALLOW_CREATE_ORGANIZATION = true
+DEFAULT_ENABLE_TIMETRACKING = true
+NO_REPLY_ADDRESS = noreply.localhost
+
+[lfs]
+PATH = /var/lib/gitea/data/lfs
+[mailer]
+ENABLED = false
+
+[openid]
+ENABLE_OPENID_SIGNIN = true
+ENABLE_OPENID_SIGNUP = true
+
+[cron.update_checker]
+ENABLED = false
+
+[session]
+PROVIDER = file
+
+[repository.pull-request]
+DEFAULT_MERGE_STYLE = merge
+
+[repository.signing]
+DEFAULT_TRUST_MODEL = committer
+
+[oauth2]
+JWT_SECRET = rY1bgly0hr5D13Xvjkm7UkBiGcQYf6BbBq-hKLs7590</code></pre>
+<p>Après avoir coller le script dans app.ini on peut créer un lien
+symbolique vers ce fichier</p>
+<pre><code>sudo ln -s /etc/gitea/app.ini /var/lib/gitea/conf/app.ini</code></pre>
+<p>La prochaine étape sera de préparer le lancement de gitea mais avant
+cela veuillez installer marriadb-server</p>
+<pre><code>apt install mariadb-server -y</code></pre>
+<p>Ensuite on va créer le script de service systemd Veuillez suivre les
+étapes :</p>
+<ol type="1">
+<li>Ouvrez un éditeur de texte , comme nano, pour créer un nouveau
+fichier de script de service:</li>
+</ol>
+<pre><code>sudo nano /etc/systemd/system/gitea.service</code></pre>
+<ol type="1">
+<li>Copiez le script ci-dessous dans gitea.service et de Ctrl-s pour
+sauvegarder et Ctrl-x pour quitter.</li>
+</ol>
+<pre><code>[Unit]
+Description=Gitea (Git with a cup of tea)
+After=syslog.target
+After=network.target
+After=mariadb.service
+Requires=mariadb.service
+
+[Service]
+RestartSec=2s
+Type=simple
+User=git
+Group=git
+WorkingDirectory=/var/lib/gitea/
+ExecStart=/usr/local/bin/gitea web -c /etc/gitea/app.ini
+Restart=always
+Environment=USER=git HOME=/home/git GITEA_WORK_DIR=/var/lib/gitea
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+<table>
+<colgroup>
+<col style="width: 38%" />
+<col style="width: 61%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Commande</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sudo systemctl daemon-reload</code></td>
+<td>Rechargement des services systemd pour prendre en compte les
+modifications</td>
+</tr>
+<tr class="even">
+<td><code>sudo systemctl start gitea</code></td>
+<td>Démarrage du service Gitea</td>
+</tr>
+<tr class="odd">
+<td><code>sudo systemctl enable gitea</code></td>
+<td>Activation du service Gitea pour qu’il démarre automatiquement au
+démarrage</td>
+</tr>
+</tbody>
+</table>
+<p>Une fois que avez fini les étapes d’installation, votre service gitea
+est prêt à être utilisé, pour l’utiliser allez sur le navigateur et
+entrez localhost:3000 pour arriver directement sur le dépôt gitea.</p>
+<p>Normalement après avoir entrez dans localhost:3000 vous devrez avoir
+une interface de dépot gitea</p>
+<p><img src="../Screenshots/gitea4.png" width="500" /></p>
+<p>Voud devriez obtenir l’interface de login dans le screen just en haut
+si tout fonctionne.</p>
+<p>Une fois que vous avez entrée votre identifiant gitea cela nous amène
+à la page suivante:</p>
+<p><img src="../Screenshots/gitea2.png" width="500" /></p>
+<p>C’est ici que tout les dépots et commits etc sera fait.</p>
+<p>Au screen suivant vous pouvez accéder à la page d’admin pour tout les
+modifications nécessaires.</p>
+<p><img src="../Screenshots/gitea3.png" width="500" /></p>
+<section class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p>Organisation internationale de
+normalisation<a href="#fnref1" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p>GRUB (Grand Unified Bootloader) est
+un chargeur d’amorçage (bootloader) largement utilisé dans les systèmes
+d’exploitation basés sur Linux. Son rôle principal est de charger le
+système d’exploitation lors du démarrage de l’ordinateur.<a
+href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3" role="doc-endnote"><p>Signifie Superuser Do<a
+href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</body>
+</html>
